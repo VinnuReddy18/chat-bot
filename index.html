@@ -202,5 +202,79 @@ button:hover {
   <div id="loader">
     <img src="loader.gif" width="150px" alt="Loading..."> 
   </div>
+  <script>
+    const chatHistory = document.getElementById('chat-history');
+    const userInput = document.getElementById('user-input');
+    const form = document.getElementById('chat-form');
+    const sendButton = document.querySelector('button[type="submit"]');
+    const loader = document.getElementById('loader');
+
+    const userAvatar = 'https://cdn-icons-png.freepik.com/256/8747/8747415.png?semt=ais_hybrid';
+    const botAvatar = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy4iKxuz8pJuG3KabET56zcnL2hCZNk-aW8A&s';
+
+
+    async function sendMessage() {
+      const userMessage = userInput.value.trim(); // Trim to remove whitespace
+
+      if (userMessage === '') {
+        return;
+      }
+
+      userInput.disabled = true;
+      sendButton.disabled = true;
+      loader.style.display = 'block'; 
+
+      chatHistory.innerHTML += `
+        <div class="message user-message">
+          <img src="${userAvatar}" alt="User">
+          <div>${userMessage}</div>
+        </div>`;
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+
+      try {
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userInput: userMessage }),
+        });
+
+        const data = await response.json();
+        const botMessage = data.response;
+        const formattedMessage = processMessage(botMessage);
+
+        // Display the bot's response as HTML
+        chatHistory.innerHTML += `
+          <div class="message bot-message">
+            <img src="${botAvatar}" alt="Bot">
+            <div>${formattedMessage}</div>
+          </div>`;
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+
+    
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        userInput.disabled = false;
+        sendButton.disabled = false;
+        loader.style.display = 'none'; 
+        userInput.value = ''; 
+      }
+    }
+
+    function processMessage(message) {
+      const boldRegex = /\*\*(.*?)\*\*/g;
+      const formattedMessage = message.replace(boldRegex, '<br><strong>$1</strong>');
+
+      return formattedMessage;
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent form submission
+      sendMessage();
+    });
+
+  </script>
 </body>
 </html>
