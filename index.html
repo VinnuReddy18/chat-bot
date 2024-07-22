@@ -6,218 +6,185 @@
   <title>Student Help Bot</title>
   <link rel="icon" href="https://picsvg.com/svg/tMZznF.jpg" type="image/icon type">
   <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
-  body {
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    background: linear-gradient(135deg, #ece9e6, #ffffff);
-  }
-  
-  #chat-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 800px;
-    height: 80vh;
-    overflow: hidden;
-    border: none;
-  }
-  
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 25px;
-    background-color: #007BFF;
-    color: white;
-    border-bottom: 2px solid #0056b3;
-  }
-  
-  header img {
-    height: 40px;
-    margin-right: 15px;
-  }
-  
+body {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background: linear-gradient(135deg, #282c34, #3b3f45);
+  color: #ffffff;
+}
+
+#chat-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #1e1e1e;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 900px;
+  height: 85vh;
+  overflow: hidden;
+  border: none;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 30px;
+  background-color: #3b3f45;
+  color: white;
+  border-bottom: 2px solid #4a4f55;
+}
+
+header img {
+  height: 45px;
+  margin-right: 20px;
+}
+
+header h1 {
+  font-size: 1.8em;
+  margin: 0;
+  font-weight: 700;
+}
+
+#chat-history {
+  flex-grow: 1;
+  padding: 25px;
+  overflow-y: auto;
+  background-color: #282c34;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 25px;
+  margin-bottom: 20px;
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+.user-message {
+  align-self: flex-end;
+  background-color: #6c757d;
+  color: #ffffff;
+  margin-left: auto;
+}
+
+.bot-message {
+  align-self: flex-start;
+  background-color: #495057;
+  color: #ffffff;
+}
+
+.message img {
+  height: 35px;
+  width: 35px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid #343a40;
+  padding: 20px;
+  background-color: #1e1e1e;
+}
+
+input {
+  flex-grow: 1;
+  padding: 15px;
+  border: 1px solid #495057;
+  border-radius: 10px;
+  font-size: 1em;
+  background-color: #343a40;
+  color: #ffffff;
+}
+
+button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 15px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+#loader {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+@media (max-width: 768px) {
   header h1 {
-    font-size: 1.5em;
-    margin: 0;
-    font-weight: 700;
+    font-size: 1.4em;
   }
-  
-  #sessions-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
+
+  #chat-container {
+    width: 95%;
+    height: 90vh;
   }
-  
+
+  #chat-history {
+    padding: 20px;
+  }
+
+  .message {
+    max-width: 85%;
+  }
+
+  button {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.2em;
+  }
+
+  #chat-container {
+    width: 100%;
+    height: 95vh;
+  }
+
+  header img {
+    height: 35px;
+  }
+
   #sessions-link img {
     height: 25px;
   }
-  
-  #chat-history {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background-color: #f8f9fa;
-  }
-  
+
   .message {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-    border-radius: 20px;
-    margin-bottom: 15px;
-    max-width: 70%;
-    word-wrap: break-word;
+    font-size: 0.9em;
   }
-  
-  .user-message {
-    align-self: flex-end;
-    background-color: #d6e9f9;
-    color: #004085;
-    margin-left: auto;
-  }
-  
-  .bot-message {
-    align-self: flex-start;
-    background-color: #f1f3f5;
-    color: #333;
-  }
-  
-  .message img {
-    height: 30px;
-    width: 30px;
-    margin-right: 10px;
-    border-radius: 50%;
-  }
-  
-  form {
-    display: flex;
-    flex-wrap: wrap;
-    border-top: 1px solid #e0e0e0;
-    padding: 15px;
-    background-color: #ffffff;
-  }
-  
+
   input {
-    flex-grow: 1;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1em;
+    padding: 10px;
   }
-  
-  button {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  #loader {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  #info {
-    display: flex;
-    align-items: center;
-    font-size: 0.8em;
-    color: #856404;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: #fff3cd;
-    border: 1px solid #ffeeba;
-    margin: 10px 0;
-  }
-  
-  #info i {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    border-radius: 50%;
-    background-color: #ffeeba;
-    color: #856404;
-    text-align: center;
-    margin-right: 10px;
-    font-weight: bold;
-  }
-  
-  @media (max-width: 768px) {
-    header h1 {
-      font-size: 1.2em;
-    }
-  
-    #chat-container {
-      width: 95%;
-      height: 90vh;
-    }
-  
-    #chat-history {
-      padding: 15px;
-    }
-  
-    .message {
-      max-width: 85%;
-    }
-  
-    button {
-      margin-left: 0;
-      margin-top: 10px;
-      width: 100%;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    header h1 {
-      font-size: 1em;
-    }
-  
-    #chat-container {
-      width: 100%;
-      height: 95vh;
-    }
-  
-    header img {
-      height: 30px;
-    }
-  
-    #sessions-link img {
-      height: 20px;
-    }
-  
-    .message {
-      font-size: 14px;
-    }
-  
-    input {
-      padding: 8px;
-    }
-  }
-  
+}
 
 </style>  
 </head>
